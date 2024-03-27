@@ -2,12 +2,12 @@ import gradio as gr
 from file_tools import folder_scan
 from image_tools import image_convert
 
-def update_image_size(proportional, width, height, image_width, image_height):
-    if proportional:
-        if width == 0:
-            width = int(height * image_width / image_height)
-        else:
-            height = int(width * image_height / image_width)
+def update_image_size(use_scale, scale, image_width, image_height):
+    if use_scale:
+        width = int(image_width * scale)
+        height = int(image_height * scale)
+    else:
+        width, height = None, None
     return width, height
 
 with gr.Blocks() as iface:
@@ -38,10 +38,11 @@ with gr.Blocks() as iface:
         with gr.Row():
             image_paths = gr.Textbox(lines=5, placeholder="Enter image paths, one per line")
             with gr.Column():
-                proportional_checkbox = gr.Checkbox(label="Keep proportional", value=True)
+                use_scale_checkbox = gr.Checkbox(label="Use scale", value=True)
+                scale_input = gr.Number(label="Scale", value=1.0)
                 with gr.Row():
-                    width_input = gr.Number(label="Width", value=0)
-                    height_input = gr.Number(label="Height", value=0)
+                    width_input = gr.Number(label="Width", interactive=False)
+                    height_input = gr.Number(label="Height", interactive=False)
                 image_format = gr.Radio(["jpg", "png", "bmp"], label="Target format", value="jpg")
                 image_width_input = gr.Number(label="Image Width", visible=False, value=800)
                 image_height_input = gr.Number(label="Image Height", visible=False, value=600)
@@ -52,6 +53,7 @@ with gr.Blocks() as iface:
             fn=image_convert,
             inputs=[
                 image_paths,
+                scale_input,
                 width_input,
                 height_input,
                 image_format
@@ -59,9 +61,9 @@ with gr.Blocks() as iface:
             outputs=image_output
         )
         
-        proportional_checkbox.change(
+        use_scale_checkbox.change(
             fn=update_image_size,
-            inputs=[proportional_checkbox, width_input, height_input, image_width_input, image_height_input],
+            inputs=[use_scale_checkbox, scale_input, image_width_input, image_height_input],
             outputs=[width_input, height_input]
         )
 

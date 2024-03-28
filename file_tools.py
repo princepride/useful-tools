@@ -52,3 +52,17 @@ def folder_scan(paths_str, ignore_patterns_str="", save_to_file=False, print_fil
         return "Output saved to folder_scan_output.txt"
     else:
         return "\n".join(all_output)
+    
+def export_pdf_text(paths_str):
+    from PyPDF2 import PdfReader
+
+    def extract_text_from_pdf(pdf_path):
+        reader = PdfReader(pdf_path)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+        return text
+
+    # 导出PDF文本内容
+    text = extract_text_from_pdf(paths_str)
+    return text

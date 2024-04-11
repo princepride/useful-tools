@@ -15,13 +15,13 @@ with gr.Blocks() as iface:
         with gr.Accordion("Folder Scan"):
             gr.Markdown("Scan folders and list their contents. Enter multiple paths, one per line. Optionally, specify patterns to ignore (one per line) and choose to print file content.")
             with gr.Row():
-                paths_input = gr.Textbox(lines=5, placeholder="Enter paths, one per line")
-                ignore_patterns_input = gr.Textbox(lines=5, placeholder="Enter ignore patterns, one per line")
+                paths_input = gr.Textbox(lines=5, label="Folders paths", placeholder="Enter paths, one per line")
+                ignore_patterns_input = gr.Textbox(lines=5, label="Ignore patterns", placeholder="Enter ignore patterns, one per line")
             with gr.Row():
                 save_to_file_checkbox = gr.Checkbox(label="Save to file")
                 print_file_content_checkbox = gr.Checkbox(label="Print file content")
             scan_button = gr.Button("Scan Folders")
-            scan_output = gr.Textbox(label="Output")
+            scan_output = gr.Textbox(label="Output", show_copy_button=True)
             scan_button.click(
                 fn=folder_scan,
                 inputs=[
@@ -37,7 +37,7 @@ with gr.Blocks() as iface:
             gr.Markdown("Export text content from PDF files.")
             pdf_paths_input = gr.Textbox(lines=5, placeholder="Enter PDF file paths, one per line")
             export_pdf_button = gr.Button("Export PDF Text")
-            pdf_text_output = gr.Textbox(label="Output")
+            pdf_text_output = gr.Textbox(label="Output", show_copy_button=True)
             export_pdf_button.click(
                 fn=export_pdf_text,
                 inputs=pdf_paths_input,

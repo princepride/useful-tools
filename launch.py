@@ -19,6 +19,7 @@ with gr.Blocks() as iface:
                 ignore_patterns_input = gr.Textbox(lines=5, label="Ignore patterns", placeholder="Enter ignore patterns, one per line")
             with gr.Row():
                 save_to_file_checkbox = gr.Checkbox(label="Save to file")
+                print_file_name_checkbox = gr.Checkbox(label="Print file name")
                 print_file_content_checkbox = gr.Checkbox(label="Print file content")
             scan_button = gr.Button("Scan Folders")
             scan_output = gr.Textbox(label="Output", show_copy_button=True)
@@ -28,7 +29,8 @@ with gr.Blocks() as iface:
                     paths_input,
                     ignore_patterns_input,
                     save_to_file_checkbox,
-                    print_file_content_checkbox
+                    print_file_content_checkbox,
+                    print_file_name_checkbox
                 ],
                 outputs=scan_output
             )
